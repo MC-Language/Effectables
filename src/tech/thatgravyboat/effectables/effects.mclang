@@ -1,0 +1,45 @@
+package tech.thatgravyboat.effectables;
+
+class effects {
+
+    @Event("effectables:player_tick")
+    func on_player_tick() {
+        if ("score @s effectables_show matches 1") {
+            check_augment(id = "strength", item = "minecraft:netherite_sword", effect = "strength", hidden = false);
+            check_augment(id = "strength", item = "minecraft:netherite_axe", effect = "strength", hidden = false);
+            check_augment(id = "haste", item = "minecraft:netherite_axe", effect = "haste", hidden = false);
+            check_augment(id = "haste", item = "minecraft:netherite_pickaxe", effect = "haste", hidden = false);
+            check_augment(id = "haste", item = "minecraft:netherite_shovel", effect = "haste", hidden = false);
+            check_armor_augment(id = "night_vision", slot = 103 item = "minecraft:netherite_helmet", effect = "night_vision", time: int = 5, hidden = false);
+            check_armor_augment(id = "water_breathing", slot = 103 item = "minecraft:netherite_helmet", effect = "water_breathing", hidden = false);
+            check_armor_augment(id = "resistance", slot = 102 item = "minecraft:netherite_chestplate", effect = "resistance", hidden = false);
+            check_armor_augment(id = "fire_resistance", slot = 102 item = "minecraft:netherite_chestplate", effect = "fire_resistance", hidden = false);
+            check_armor_augment(id = "regeneration", slot = 102 item = "minecraft:netherite_chestplate", effect = "regeneration", hidden = false);
+            check_armor_augment(id = "saturation", slot = 101 item = "minecraft:netherite_leggings", effect = "saturation", hidden = false);
+            check_armor_augment(id = "glowing", slot = 101 item = "minecraft:netherite_leggings", effect = "glowing", hidden = false);
+            check_armor_augment(id = "jump_boost", slot = 100 item = "minecraft:netherite_boots", effect = "jump_boost", hidden = false);
+            check_armor_augment(id = "speed", slot = 100 item = "minecraft:netherite_boots", effect = "speed", hidden = false);
+        } else {
+            check_augment(id = "strength", item = "minecraft:netherite_sword", effect = "strength");
+            check_augment(id = "strength", item = "minecraft:netherite_axe", effect = "strength");
+            check_augment(id = "haste", item = "minecraft:netherite_axe", effect = "haste");
+            check_augment(id = "haste", item = "minecraft:netherite_pickaxe", effect = "haste");
+            check_augment(id = "haste", item = "minecraft:netherite_shovel", effect = "haste");
+            check_armor_augment(id = "night_vision", slot = 103 item = "minecraft:netherite_helmet", effect = "night_vision", time: int = 5);
+            check_armor_augment(id = "water_breathing", slot = 103 item = "minecraft:netherite_helmet", effect = "water_breathing");
+            check_armor_augment(id = "resistance", slot = 102 item = "minecraft:netherite_chestplate", effect = "resistance");
+            check_armor_augment(id = "fire_resistance", slot = 102 item = "minecraft:netherite_chestplate", effect = "fire_resistance");
+            check_armor_augment(id = "regeneration", slot = 102 item = "minecraft:netherite_chestplate", effect = "regeneration");
+            check_armor_augment(id = "saturation", slot = 101 item = "minecraft:netherite_leggings", effect = "saturation");
+            check_armor_augment(id = "glowing", slot = 101 item = "minecraft:netherite_leggings", effect = "glowing");
+            check_armor_augment(id = "jump_boost", slot = 100 item = "minecraft:netherite_boots", effect = "jump_boost");
+            check_armor_augment(id = "speed", slot = 100 item = "minecraft:netherite_boots", effect = "speed");
+        }
+    }
+
+    macro check_augment(id: string, item: string, effect: string, time: int = 1, amplifier: int = 0, hidden: boolean = true)
+        -> "execute as @s[nbt={SelectedItem:{id:'${item}',tag:{effectables_augment:'${id}'}}}] run effect give @s ${effect} ${time} ${amplifier} ${hidden}";
+
+    macro check_armor_augment(id: string, slot: int, item: string, effect: string, time: int = 1, amplifier: int = 0, hidden: boolean = true)
+        -> "execute as @s[nbt={Inventory:[{Slot:${slot}b, id:'${item}',tag:{effectables_augment:'${id}'}}]}] run effect give @s ${effect} ${time} ${amplifier} ${hidden}";
+}

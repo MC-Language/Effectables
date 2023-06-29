@@ -1,0 +1,113 @@
+package tech.thatgravyboat.effectables;
+
+class recipes {
+
+    /* Items */
+    @Event("effectables:sword_tick")
+    func sword() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:iron_sword',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:iron_sword", item = "minecraft:netherite_sword", augment = "strength");
+            }
+        }
+    }
+
+    @Event("effectables:axe_tick")
+    func axe() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:iron_sword',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:iron_sword", item = "minecraft:netherite_axe", augment = "strength");
+            }
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:iron_pickaxe',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:iron_pickaxe", item = "minecraft:netherite_axe", augment = "haste");
+            }
+        }
+    }
+
+    @Event("effectables:pickaxe_tick")
+    func pickaxe() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:iron_pickaxe',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:iron_pickaxe", item = "minecraft:netherite_pickaxe", augment = "haste");
+            }
+        }
+    }
+
+    @Event("effectables:shovel_tick")
+    func shovel() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:iron_pickaxe',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:iron_pickaxe", item = "minecraft:netherite_shovel", augment = "haste");
+            }
+        }
+    }
+
+    /* Armor */
+    @Event("effectables:helmet_tick")
+    func helmet() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:golden_carrot',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:golden_carrot", item = "minecraft:netherite_helmet", augment = "night_vision");
+            }
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:pufferfish',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:pufferfish", item = "minecraft:netherite_helmet", augment = "water_breathing");
+            }
+        }
+    }
+
+    @Event("effectables:chestplate_tick")
+    func chestplate() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:shield',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:shield", item = "minecraft:netherite_chestplate", augment = "resistance");
+            }
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:magma_block',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:magma_block", item = "minecraft:netherite_chestplate", augment = "fire_resistance");
+            }
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:golden_apple',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:golden_apple", item = "minecraft:netherite_chestplate", augment = "regeneration");
+            }
+        }
+    }
+
+    @Event("effectables:leggings_tick")
+    func leggings() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:glowstone',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:glowstone", item = "minecraft:netherite_leggings", augment = "glowing");
+            }
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:enchanted_golden_apple',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:enchanted_golden_apple", item = "minecraft:netherite_leggings", augment = "saturation");
+            }
+        }
+    }
+
+    @Event("effectables:boots_tick")
+    func boots() {
+        when {
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:sugar',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:sugar", item = "minecraft:netherite_boots", augment = "speed");
+            }
+            case "entity @e[type=item,nbt={Item:{id:'minecraft:rabbit_foot',Count:1b}},distance=..2] align xyz positioned ~0.5 ~0.5 ~0.5": {
+                finish_recipe(ingredient = "minecraft:rabbit_foot", item = "minecraft:netherite_boots", augment = "jump_boost");
+            }
+        }
+    }
+
+    /**
+        * Finishes the recipe, plays the sound, and kills the ingredients.
+        *
+        * @param ingredient The ingredient item.
+        * @param item The item to apply the augment to.
+        * @param augment The augment to apply.
+    */
+    macro finish_recipe(ingredient: string, item: string, augment: string)
+        -> [
+            "playsound minecraft:block.beacon.activate master @p",
+            "execute as @e[type=item,nbt={Item:{id:'${item}'}},limit=1] run kill @e[type=item,nbt={Item:{id:'minecraft:nether_star',Count:1b}},distance=..3]",
+            "execute as @e[type=item,nbt={Item:{id:'${item}'}},limit=1] run kill @e[type=item,nbt={Item:{id:'${ingredient}'}},distance=..3]",
+            "data merge entity @e[type=item,nbt={Item:{id:'${item}'}},limit=1] {Item:{tag:{effectables_augment:'${augment}'}}}"
+        ];
+
+
+}

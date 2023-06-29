@@ -1,0 +1,23 @@
+package tech.thatgravyboat.effectables;
+
+class events {
+
+    @Event("minecraft:tick")
+    func on_tick() {
+        run_tick(selector = "@p", run = "player_tick");
+        run_item_tick(id = "minecraft:netherite_helmet", run = "helmet_tick");
+        run_item_tick(id = "minecraft:netherite_chestplate", run = "chestplate_tick");
+        run_item_tick(id = "minecraft:netherite_leggings", run = "leggings_tick");
+        run_item_tick(id = "minecraft:netherite_boots", run = "boots_tick");
+        run_item_tick(id = "minecraft:netherite_sword", run = "sword_tick");
+        run_item_tick(id = "minecraft:netherite_pickaxe", run = "pickaxe_tick");
+        run_item_tick(id = "minecraft:netherite_axe", run = "axe_tick");
+        run_item_tick(id = "minecraft:netherite_shovel", run = "shovel_tick");
+    }
+
+    macro run_tick(selector: string, run: string)
+        -> "execute as ${selector} run function #effectables:${run}";
+
+    macro run_item_tick(id: string, run: string)
+        -> "execute as @e[type=item,nbt={Item:{id:'${id}',Count:1b}}] at @s if block ~ ~ ~ minecraft:enchanting_table if entity @e[type=item,nbt={Item:{id:'minecraft:nether_star',Count:1b}},distance=..2] run function #effectables:${run}";
+}
